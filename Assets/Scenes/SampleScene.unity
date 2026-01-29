@@ -350,6 +350,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1217301185}
   - component: {fileID: 1217301184}
+  - component: {fileID: 1217301187}
+  - component: {fileID: 1217301186}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -431,6 +433,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1217301186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217301183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f186e5215d6b14ba2ca13ff817a630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  bobbingSpeed: 5
+  bobbingHeight: 0.2
+--- !u!111 &1217301187
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217301183}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
