@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TempMovingScript : MonoBehaviour
 {
@@ -16,10 +17,14 @@ public class TempMovingScript : MonoBehaviour
         float moveX = 0f;
         float moveY = 0f;
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) moveX -= 1f;
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) moveX += 1f;
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) moveY += 1f;
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) moveY -= 1f;
+        var kb = Keyboard.current;
+        if (kb != null)
+        {
+            if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) moveX -= 1f;
+            if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) moveX += 1f;
+            if (kb.wKey.isPressed || kb.upArrowKey.isPressed) moveY += 1f;
+            if (kb.sKey.isPressed || kb.downArrowKey.isPressed) moveY -= 1f;
+        }
 
         Vector3 movement = new Vector3(moveX, moveY, 0f);
         if (movement.sqrMagnitude > 1f) movement.Normalize();

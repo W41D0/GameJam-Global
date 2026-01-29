@@ -86,9 +86,9 @@ public class wiggascript : MonoBehaviour
 
     void Jump()
     {
-        if (rb != null)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            if (rb != null)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             Vector2 jumpDirection = Vector2.up;
             
             // Allow diagonal jumping based on horizontal input
