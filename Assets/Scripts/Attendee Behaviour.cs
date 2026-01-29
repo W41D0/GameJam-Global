@@ -6,10 +6,10 @@ public class AttendeeBehaviour : MonoBehaviour
     [SerializeField] float speed = 5f;
     [SerializeField] float minIdleTime = 1f;
     [SerializeField] float maxIdleTime = 3f;
+    [SerializeField] Transform pos1;
+    [SerializeField] Transform pos2;
 
     GameObject perimeter;
-    Transform pos1;
-    Transform pos2;
     Rigidbody2D attendee;
     Vector2 randomPosition;
 
@@ -17,9 +17,8 @@ public class AttendeeBehaviour : MonoBehaviour
     void Awake()
     {
         attendee = GetComponent<Rigidbody2D>();
-        perimeter = GameObject.FindGameObjectWithTag("Spawn");
-        pos1 = perimeter.transform.GetChild(0);
-        pos2 = perimeter.transform.GetChild(1);
+        perimeter = GameObject.FindGameObjectWithTag("Spawner");
+        StartCoroutine(ChooseRandomPosition());
     }
 
     // Update is called once per frame
