@@ -1,124 +1,83 @@
-using System.Collections;
 using UnityEngine;
 
-public class AttendeeAnimator : MonoBehaviour
+public class PhysicsBobber2D : MonoBehaviour
 {
-    [Header("Bob & Sway Settings")]
-    [SerializeField] float bobHeight = 0.2f;    // How high it jumps
-    [SerializeField] float swayAngle = 15f;     // How much it tilts
-    [SerializeField] float stepSpeed = 10f;     // How fast the animation plays
+    [Header("Setup")]
+    [SerializeField] Rigidbody2D parentRb; // Drag the Main Parent here
 
-    private Transform parentTransform;
-    private Vector3 lastParentPosition;
-    private bool isMoving;
-    private bool isAnimating;
-    private Vector3 defaultLocalPos;
+    [Header("Hop Settings")]
+    [SerializeField] float hopHeight = 0.2f;    // How high visual moves up
+    [SerializeField] float stepRate = 0.3f;     // Speed of the bob
+    [SerializeField] float minSpeed = 0.1f;     // Minimum speed to start
+
+    [Header("Sway Settings")]
+    [SerializeField] float swayAngle = 5f;      // Tilt angle
+    [SerializeField] float swaySpeed = 10f;     // How fast it tilts
+
+    private float stepTimer;
+    private bool toggleStep;
+    private Vector3 initialLocalPos; // Remembers where the sprites sit naturally
 
     void Awake()
     {
-        // Get the parent transform to track movement
-        parentTransform = transform.parent;
-        
-        if (parentTransform == null)
-        {
-            Debug.LogError("This script must be on a CHILD object!");
-            enabled = false;
-            return;
-        }
+        // If you forgot to assign it in inspector, try to find it on the parent
+        if (parentRb == null) 
+            parentRb = GetComponentInParent<Rigidbody2D>();
 
-        lastParentPosition = parentTransform.position;
-        defaultLocalPos = transform.localPosition;
+        initialLocalPos = transform.localPosition;
     }
 
     void Update()
     {
-        // 1. Calculate if the parent has moved since last frame
-        float distanceMoved = Vector3.Distance(parentTransform.position, lastParentPosition);
-        
-        // Check if moved significantly (threshold avoids floating point errors)
-        isMoving = distanceMoved > 0.001f;
+        // 1. Check Parent's Speed
+        // Note: Use .velocity for Unity 5/2017-2022, .linearVelocity for Unity 6+
+        float speed = Mathf.Abs(parentRb.linearVelocity.x); 
 
-        // 2. Trigger animation loop
-        if (isMoving && !isAnimating)
+        if (speed > minSpeed)
         {
-            StartCoroutine(DoBobAndSway());
+            HandleHopping();
+            HandleSwaying();
         }
-
-        // 3. Update position for the next frame calculation
-        lastParentPosition = parentTransform.position;
-    }
-
-    IEnumerator DoBobAndSway()
-    {
-        isAnimating = true;
-
-        // --- CYCLE START ---
-        
-        // 1. Tilt Right + Jump Up
-        Quaternion rightRot = Quaternion.Euler(0, 0, -swayAngle);
-        yield return MoveLocal(rightRot, bobHeight);
-
-        // 2. Tilt Left + Dip Down then Up (The "step" over)
-        Quaternion leftRot = Quaternion.Euler(0, 0, swayAngle);
-        yield return MoveLocalDip(leftRot, bobHeight);
-
-        // 3. Return to Center + Land
-        yield return MoveLocal(Quaternion.identity, 0f);
-
-        // --- CYCLE END ---
-        
-        // Reset purely to prevent drift
-        transform.localPosition = defaultLocalPos;
-        transform.localRotation = Quaternion.identity;
-        
-        isAnimating = false;
-    }
-
-    // Standard move: Linear rotation, Linear height change
-    IEnumerator MoveLocal(Quaternion targetRot, float targetY)
-    {
-        Quaternion startRot = transform.localRotation;
-        float startY = transform.localPosition.y;
-        float t = 0;
-
-        while (t < 1f)
+        else
         {
-            t += Time.deltaTime * stepSpeed;
-            float smooth = Mathf.SmoothStep(0, 1, t);
-
-            // Rotate
-            transform.localRotation = Quaternion.Slerp(startRot, targetRot, smooth);
-            
-            // Move Y (Bob)
-            float newY = Mathf.Lerp(startY, defaultLocalPos.y + targetY, smooth);
-            transform.localPosition = new Vector3(defaultLocalPos.x, newY, defaultLocalPos.z);
-            
-            yield return null;
+            // Reset to neutral when stopped
+            stepTimer = 0;
+            ResetVisuals();
         }
     }
 
-    // Dip move: Used when switching feet (High -> Low -> High)
-    IEnumerator MoveLocalDip(Quaternion targetRot, float targetPeakY)
+    void HandleHopping()
     {
-        Quaternion startRot = transform.localRotation;
-        float t = 0;
+        stepTimer += Time.deltaTime;
 
-        while (t < 1f)
+        // VISUAL HOP: calculating a nice curve for the hop
+        // We use a Sine wave based on the timer for a smooth up/down
+        float hopY = Mathf.Abs(Mathf.Sin((stepTimer / stepRate) * Mathf.PI)) * hopHeight;
+        
+        // Apply to localPosition so it moves relative to the parent
+        transform.localPosition = new Vector3(initialLocalPos.x, initialLocalPos.y + hopY, initialLocalPos.z);
+
+        if (stepTimer >= stepRate)
         {
-            t += Time.deltaTime * stepSpeed;
-            float smooth = Mathf.SmoothStep(0, 1, t);
-
-            // Rotate
-            transform.localRotation = Quaternion.Slerp(startRot, targetRot, smooth);
-
-            // Calculate a "U" shape for the dip (Simulates stepping down and back up)
-            // 4 * (x - 0.5)^2 generates a parabola from 1 to 0 to 1
-            float dipCurve = 4f * (smooth - 0.5f) * (smooth - 0.5f);
-            
-            float newY = defaultLocalPos.y + (targetPeakY * dipCurve);
-            transform.localPosition = new Vector3(defaultLocalPos.x, newY, defaultLocalPos.z);
-
-            yield return null;
+            toggleStep = !toggleStep; // Switch feet
+            stepTimer = 0;
         }
+    }
+
+    void HandleSwaying()
+    {
+        // Pick a target angle based on which "foot" is active
+        float targetZ = toggleStep ? swayAngle : -swayAngle;
+        
+        // VISUAL SWAY: Rotate ONLY this child container
+        Quaternion targetRot = Quaternion.Euler(0, 0, targetZ);
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRot, Time.deltaTime * swaySpeed);
+    }
+
+    void ResetVisuals()
+    {
+        // Smoothly return to default position and rotation
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * 5f);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, Time.deltaTime * 5f);
     }
 }

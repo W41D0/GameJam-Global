@@ -3,9 +3,12 @@ using System.Collections;
 
 public class AttendeeBehaviour : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] float speed = 5f;
     [SerializeField] float minIdleTime = 1f;
     [SerializeField] float maxIdleTime = 3f;
+
+    [Header("Perimeter")]
     [SerializeField] Transform pos1;
     [SerializeField] Transform pos2;
 
@@ -24,7 +27,14 @@ public class AttendeeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         attendee.MovePosition(Vector2.MoveTowards(attendee.position, randomPosition, speed * 2 * Time.deltaTime));
+        if (Vector2.Distance(attendee.position, randomPosition) < 0.1f)
+        {
+            attendee.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            attendee.linearVelocity = (randomPosition - attendee.position).normalized * speed;   
+        } 
     }
 
     IEnumerator ChooseRandomPosition()
