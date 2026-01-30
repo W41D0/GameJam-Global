@@ -567,6 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1163253760}
   - component: {fileID: 1163253759}
+  - component: {fileID: 1163253761}
   m_Layer: 0
   m_Name: CheckBoard
   m_TagString: Untagged
@@ -649,6 +650,69 @@ Transform:
   - {fileID: 1156730622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1163253761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163253758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8867e6d3a2a7c44893541e1bc13668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AssasinAtributesChecklist
+  maskSprites:
+  - {fileID: -2515223741257278335, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: -1621331511213568904, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: -1576905741432974279, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: 1041530616712097079, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: -3058205264586532635, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: 5473558219997534313, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  bodyTypeList:
+  - {fileID: -3126933480502317572, guid: 6aaed20f2f3058d458bdb42b264d527a, type: 3}
+  - {fileID: -9107684662965093031, guid: 6aaed20f2f3058d458bdb42b264d527a, type: 3}
+  clothesColorList:
+  - {r: 0.8235295, g: 0.07450981, b: 0.21960786, a: 1}
+  - {r: 0.2941177, g: 0, b: 0.509804, a: 1}
+  - {r: 0, g: 0.3921569, b: 0, a: 1}
+  - {r: 1, g: 0.6470588, b: 0, a: 1}
+  - {r: 0, g: 0.9803922, b: 0.6039216, a: 1}
+  - {r: 0, g: 0, b: 0.5450981, a: 1}
+  - {r: 0.7294118, g: 0.3333333, b: 0.8274511, a: 1}
+  hairColorList:
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0.22745098, b: 0, a: 1}
+  - {r: 0.5450981, g: 0.2705882, b: 0.07450981, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.09803922, g: 0.09803922, b: 0.4392157, a: 1}
+  - {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  maleClothesList:
+  - {fileID: 4862942130373081034, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 7798115773135034406, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: -6475819047146179335, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 4366684086613286107, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 6286683622799710322, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  maleHairStyles:
+  - {fileID: 4123362174586507617, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  - {fileID: -3040286798778904671, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  - {fileID: -3339888944659301926, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  - {fileID: 1488659391076032953, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  femaleClothesList:
+  - {fileID: 7566583126990785104, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: -6630935928423092300, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 1741794351880512470, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 1290318136122146416, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 8110221161724722410, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: -637323445732092492, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  femaleHairStyles:
+  - {fileID: 7566583126990785104, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: -6630935928423092300, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 1741794351880512470, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 1290318136122146416, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: 8110221161724722410, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
+  - {fileID: -637323445732092492, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
 --- !u!1 &1325938197
 GameObject:
   m_ObjectHideFlags: 0
