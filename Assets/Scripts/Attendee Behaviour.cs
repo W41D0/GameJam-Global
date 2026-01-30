@@ -3,9 +3,12 @@ using System.Collections;
 
 public class AttendeeBehaviour : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] float speed = 5f;
     [SerializeField] float minIdleTime = 1f;
     [SerializeField] float maxIdleTime = 3f;
+
+    [Header("Perimeter")]
     [SerializeField] Transform pos1;
     [SerializeField] Transform pos2;
 
@@ -31,7 +34,6 @@ public class AttendeeBehaviour : MonoBehaviour
         else
         {
             attendee.linearVelocity = (randomPosition - attendee.position).normalized * speed;   
-            Debug.Log("my speed is: " + attendee.linearVelocity);
         } 
     }
 

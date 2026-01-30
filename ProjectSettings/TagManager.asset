@@ -12,11 +12,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Mask
+  - Hair
+  - Head
+  - Clothes
+  - Body
   - 
   - 
   - 
@@ -41,6 +41,21 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Body
+    uniqueID: 3087519963
+    locked: 0
+  - name: Clothes
+    uniqueID: 735168853
+    locked: 0
+  - name: Head
+    uniqueID: 1417821841
+    locked: 0
+  - name: Hair
+    uniqueID: 302674273
+    locked: 0
+  - name: Mask
+    uniqueID: 3054183865
     locked: 0
   m_RenderingLayers:
   - Default
