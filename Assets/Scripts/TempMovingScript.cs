@@ -5,10 +5,12 @@ public class TempMovingScript : MonoBehaviour
 {
     [Tooltip("Movement speed in units per second")]
     public float moveSpeed = 5f;
+    Rigidbody2D rb2d;
 
     // Use this for initialization
     void Start()
     {
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -26,9 +28,9 @@ public class TempMovingScript : MonoBehaviour
             if (kb.sKey.isPressed || kb.downArrowKey.isPressed) moveY -= 1f;
         }
 
-        Vector3 movement = new Vector3(moveX, moveY, 0f);
+        Vector2 movement = new Vector2(moveX, moveY);
         if (movement.sqrMagnitude > 1f) movement.Normalize();
 
-        transform.position += movement * moveSpeed * Time.deltaTime;
+        rb2d.linearVelocity = movement * moveSpeed;
     }
 }
