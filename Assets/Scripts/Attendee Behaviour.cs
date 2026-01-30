@@ -1,10 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.Rendering;
 
 public class AttendeeBehaviour : MonoBehaviour
 {
     public bool isAssasin;
+    bool canBeShot = true;
+    bool isAlive = true;
 
     [Header("Movement")]
     [SerializeField] float speed = 5f;
@@ -19,9 +22,14 @@ public class AttendeeBehaviour : MonoBehaviour
     Rigidbody2D attendee;
     Vector2 randomPosition;
 
+    int defaultLayer;
+    int ignoreLayer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        defaultLayer = gameObject.layer;
+        ignoreLayer = LayerMask.NameToLayer("Ignore Raycast");
         attendee = GetComponent<Rigidbody2D>();
         perimeter = GameObject.FindGameObjectWithTag("Spawner");
     }
@@ -37,14 +45,44 @@ public class AttendeeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(attendee.position, randomPosition) < 0.1f)
+        if(isAlive)
         {
-            attendee.linearVelocity = Vector2.zero;
+            if (Vector2.Distance(attendee.position, randomPosition) < 0.1f)
+            {
+                attendee.linearVelocity = Vector2.zero;
+            }
+            else
+            {
+                attendee.linearVelocity = (randomPosition - attendee.position).normalized * speed;   
+            } 
         }
-        else
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!isAssasin && collision.CompareTag("Attendee") && collision.GetComponent<AttendeeBehaviour>().getIsAssasin() == true)
         {
-            attendee.linearVelocity = (randomPosition - attendee.position).normalized * speed;   
-        } 
+            gameObject.layer = ignoreLayer;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!isAssasin && collision.CompareTag("Attendee") && collision.GetComponent<AttendeeBehaviour>().getIsAssasin() == true)
+        {
+            gameObject.layer = defaultLayer;
+        }
+    }
+
+    void OnMouseDown()
+    {
+        if(isAlive)
+        {
+            Debug.Log("Im a " + isAssasin + " assasin");
+            isAlive = false;
+            attendee.linearVelocity = Vector2.zero;
+            GetComponentInChildren<PhysicsBobber2D>().TriggerDeath();
+        }
     }
 
     IEnumerator ChooseRandomPosition()

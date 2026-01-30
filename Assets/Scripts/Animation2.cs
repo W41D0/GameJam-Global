@@ -3,34 +3,62 @@ using UnityEngine;
 public class PhysicsBobber2D : MonoBehaviour
 {
     [Header("Setup")]
-    [SerializeField] Rigidbody2D parentRb; // Drag the Main Parent here
+    [SerializeField] Rigidbody2D parentRb;
+    
+    // NEW: Arrays to hold multiple parts
+    private SpriteRenderer[] childRenderers; 
+    private Color[] defaultColors;
 
     [Header("Hop Settings")]
-    [SerializeField] float hopHeight = 0.2f;    // How high visual moves up
-    [SerializeField] float stepRate = 0.3f;     // Speed of the bob
-    [SerializeField] float minSpeed = 0.1f;     // Minimum speed to start
+    [SerializeField] float hopHeight = 0.2f;
+    [SerializeField] float stepRate = 0.3f;
+    [SerializeField] float minSpeed = 0.1f;
 
     [Header("Sway Settings")]
-    [SerializeField] float swayAngle = 5f;      // Tilt angle
-    [SerializeField] float swaySpeed = 10f;     // How fast it tilts
+    [SerializeField] float swayAngle = 5f;
+    [SerializeField] float swaySpeed = 10f;
+
+    [Header("Death Settings")]
+    [SerializeField] float deathPopHeight = 0.5f; 
+    [SerializeField] float deathPopSpeed = 10f;   
+    [SerializeField] Color flashColor = Color.red; 
+
+    private bool isDead = false;
+    private float deathTargetAngle;
+    private float deathTimer = 0f;
 
     private float stepTimer;
     private bool toggleStep;
-    private Vector3 initialLocalPos; // Remembers where the sprites sit naturally
+    private Vector3 initialLocalPos;
 
     void Awake()
     {
-        // If you forgot to assign it in inspector, try to find it on the parent
         if (parentRb == null) 
             parentRb = GetComponentInParent<Rigidbody2D>();
+
+        // 1. Find ALL sprites inside this object (Head, Body, Arms, etc.)
+        childRenderers = GetComponentsInChildren<SpriteRenderer>();
+        
+        // 2. Create a list to remember the normal color of each part
+        defaultColors = new Color[childRenderers.Length];
+
+        for (int i = 0; i < childRenderers.Length; i++)
+        {
+            defaultColors[i] = childRenderers[i].color;
+        }
 
         initialLocalPos = transform.localPosition;
     }
 
     void Update()
     {
-        // 1. Check Parent's Speed
-        // Note: Use .velocity for Unity 5/2017-2022, .linearVelocity for Unity 6+
+        if (isDead)
+        {
+            HandleDeath();
+            return; 
+        }
+
+        // Use .velocity for Unity 5-2022, .linearVelocity for Unity 6
         float speed = Mathf.Abs(parentRb.linearVelocity.x); 
 
         if (speed > minSpeed)
@@ -40,43 +68,79 @@ public class PhysicsBobber2D : MonoBehaviour
         }
         else
         {
-            // Reset to neutral when stopped
             stepTimer = 0;
             ResetVisuals();
+        }
+    }
+
+    public void TriggerDeath()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        deathTimer = 0f;
+
+        float direction = (Random.value > 0.5f) ? 1f : -1f;
+        deathTargetAngle = direction * Random.Range(75f, 90f);
+        
+        if(parentRb != null) parentRb.linearVelocity = Vector2.zero;
+
+        // 3. Loop through EVERY sprite and turn it Red
+        foreach (SpriteRenderer sr in childRenderers)
+        {
+            sr.color = flashColor;
+        }
+    }
+
+    void HandleDeath()
+    {
+        deathTimer += Time.deltaTime;
+
+        // --- PHASE 1: THE POP ---
+        if (deathTimer < 0.15f)
+        {
+            Vector3 popTarget = initialLocalPos + Vector3.up * deathPopHeight;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, popTarget, Time.deltaTime * deathPopSpeed);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * 10f);
+        }
+        // --- PHASE 2: THE FALL ---
+        else
+        {
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, Time.deltaTime * 5f);
+            
+            Quaternion targetRot = Quaternion.Euler(0, 0, deathTargetAngle);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRot, Time.deltaTime * 5f);
+
+            // 4. Loop through EVERY sprite and fade it back to its OWN normal color
+            for (int i = 0; i < childRenderers.Length; i++)
+            {
+                childRenderers[i].color = Color.Lerp(childRenderers[i].color, defaultColors[i], Time.deltaTime * 3f);
+            }
         }
     }
 
     void HandleHopping()
     {
         stepTimer += Time.deltaTime;
-
-        // VISUAL HOP: calculating a nice curve for the hop
-        // We use a Sine wave based on the timer for a smooth up/down
         float hopY = Mathf.Abs(Mathf.Sin((stepTimer / stepRate) * Mathf.PI)) * hopHeight;
-        
-        // Apply to localPosition so it moves relative to the parent
         transform.localPosition = new Vector3(initialLocalPos.x, initialLocalPos.y + hopY, initialLocalPos.z);
 
         if (stepTimer >= stepRate)
         {
-            toggleStep = !toggleStep; // Switch feet
+            toggleStep = !toggleStep;
             stepTimer = 0;
         }
     }
 
     void HandleSwaying()
     {
-        // Pick a target angle based on which "foot" is active
         float targetZ = toggleStep ? swayAngle : -swayAngle;
-        
-        // VISUAL SWAY: Rotate ONLY this child container
         Quaternion targetRot = Quaternion.Euler(0, 0, targetZ);
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRot, Time.deltaTime * swaySpeed);
     }
 
     void ResetVisuals()
     {
-        // Smoothly return to default position and rotation
         transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * 5f);
         transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, Time.deltaTime * 5f);
     }
