@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 public class AttendeeBehaviour : MonoBehaviour
 {
     public bool isAssasin;
-    bool canBeShot = true;
     bool isAlive = true;
 
     public static int numOfAssasinsAlive = 1;
