@@ -1,34 +1,49 @@
 fileFormatVersion: 2
-guid: 62791b56e07073549abe377b74d5e870
+guid: 01bc0c8c8432246488e9101d51abb151
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4123362174586507617
-    second: PlaceHolder Hair_0
+      213: 4862942130373081034
+    second: Clothes_0
   - first:
-      213: -3040286798778904671
-    second: PlaceHolder Hair_1
+      213: 7566583126990785104
+    second: Clothes_1
   - first:
-      213: -3339888944659301926
-    second: PlaceHolder Hair_2
+      213: 7798115773135034406
+    second: Clothes_2
   - first:
-      213: -2403615023284425778
-    second: PlaceHolder Hair_3
+      213: -6630935928423092300
+    second: Clothes_3
   - first:
-      213: 5551457060107602389
-    second: PlaceHolder Hair_4
+      213: -6475819047146179335
+    second: Clothes_4
   - first:
-      213: 1488659391076032953
-    second: PlaceHolder Hair_5
+      213: 1741794351880512470
+    second: Clothes_5
   - first:
-      213: 1589037545076745396
-    second: PlaceHolder Hair_6
+      213: 8927547857190717070
+    second: Clothes_6
   - first:
-      213: -7122719001589257417
-    second: PlaceHolder Hair_7
+      213: 3954441825173325506
+    second: Clothes_7
   - first:
-      213: 2363488807801806293
-    second: PlaceHolder Hair_8
+      213: 4366684086613286107
+    second: Clothes_8
+  - first:
+      213: 1290318136122146416
+    second: Clothes_9
+  - first:
+      213: 6286683622799710322
+    second: Clothes_10
+  - first:
+      213: 8110221161724722410
+    second: Clothes_11
+  - first:
+      213: 7254362255520461511
+    second: Clothes_12
+  - first:
+      213: -637323445732092492
+    second: Clothes_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +90,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 88
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,199 +165,309 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlaceHolder Hair_0
+      name: Clothes_0
       rect:
         serializedVersion: 2
-        x: 57
-        y: 355
-        width: 85
-        height: 84
+        x: 516
+        y: 1048
+        width: 191
+        height: 163
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 161d2802d00293930800000000000000
-      internalID: 4123362174586507617
+      spriteID: ac73b244a14ac7340800000000000000
+      internalID: 4862942130373081034
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_1
+      name: Clothes_1
       rect:
         serializedVersion: 2
-        x: 194
-        y: 348
-        width: 106
-        height: 84
-      alignment: 9
-      pivot: {x: 0.53173065, y: 0.562452}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1af497fb34bbec5d0800000000000000
-      internalID: -3040286798778904671
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlaceHolder Hair_2
-      rect:
-        serializedVersion: 2
-        x: 347
-        y: 343
-        width: 110
-        height: 91
+        x: 1060
+        y: 1045
+        width: 186
+        height: 161
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad9f35843b456a1d0800000000000000
-      internalID: -3339888944659301926
+      spriteID: 05a00c7b347e10960800000000000000
+      internalID: 7566583126990785104
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_3
+      name: Clothes_2
       rect:
         serializedVersion: 2
-        x: 43
-        y: 193
-        width: 115
-        height: 98
+        x: 514
+        y: 878
+        width: 191
+        height: 163
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ecbe6580fd4a4aed0800000000000000
-      internalID: -2403615023284425778
+      spriteID: 628951fbaf8783c60800000000000000
+      internalID: 7798115773135034406
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_4
+      name: Clothes_3
       rect:
         serializedVersion: 2
-        x: 194
-        y: 185
-        width: 121
-        height: 114
+        x: 1058
+        y: 875
+        width: 186
+        height: 161
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d94c8588ccba0d40800000000000000
-      internalID: 5551457060107602389
+      spriteID: 4bf67f1c7ee2af3a0800000000000000
+      internalID: -6630935928423092300
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_5
+      name: Clothes_4
       rect:
         serializedVersion: 2
-        x: 345
-        y: 191
-        width: 116
-        height: 107
+        x: 510
+        y: 710
+        width: 191
+        height: 165
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b1e2a434d7c8a410800000000000000
-      internalID: 1488659391076032953
+      spriteID: 9f4b42113e44126a0800000000000000
+      internalID: -6475819047146179335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_6
+      name: Clothes_5
       rect:
         serializedVersion: 2
-        x: 45
-        y: 60
-        width: 108
-        height: 89
+        x: 1054
+        y: 707
+        width: 186
+        height: 161
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4b4ee096a356d0610800000000000000
-      internalID: 1589037545076745396
+      spriteID: 6d3ae9f0cb81c2810800000000000000
+      internalID: 1741794351880512470
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_7
+      name: Clothes_6
       rect:
         serializedVersion: 2
-        x: 188
-        y: 56
-        width: 136
-        height: 95
+        x: 512
+        y: 538
+        width: 191
+        height: 163
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 73be85b4ec4072d90800000000000000
-      internalID: -7122719001589257417
+      spriteID: e860727d97505eb70800000000000000
+      internalID: 8927547857190717070
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlaceHolder Hair_8
+      name: Clothes_7
       rect:
         serializedVersion: 2
-        x: 357
-        y: 77
-        width: 120
-        height: 99
-      alignment: 9
-      pivot: {x: 0.36697134, y: 0.30721375}
+        x: 1056
+        y: 535
+        width: 186
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5dd53a36c8cccc020800000000000000
-      internalID: 2363488807801806293
+      spriteID: 2c6476273eff0e630800000000000000
+      internalID: 3954441825173325506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_8
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 371
+        width: 191
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdc9fe48a04999c30800000000000000
+      internalID: 4366684086613286107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_9
+      rect:
+        serializedVersion: 2
+        x: 1052
+        y: 368
+        width: 186
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07efdc6228128e110800000000000000
+      internalID: 1290318136122146416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_10
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 199
+        width: 191
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2781e385279ce3750800000000000000
+      internalID: 6286683622799710322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_11
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 196
+        width: 186
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aec35724d2b4d8070800000000000000
+      internalID: 8110221161724722410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_12
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 1
+        width: 191
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c27c40490caca460800000000000000
+      internalID: 7254362255520461511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Clothes_13
+      rect:
+        serializedVersion: 2
+        x: 1047
+        y: 0
+        width: 186
+        height: 159
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b55c1ae3b5c727f0800000000000000
+      internalID: -637323445732092492
       vertices: []
       indices: 
       edges: []
@@ -351,7 +476,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 85673b007573aae45a6502d8f1ad6853
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -361,15 +486,20 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlaceHolder Hair_0: 4123362174586507617
-      PlaceHolder Hair_1: -3040286798778904671
-      PlaceHolder Hair_2: -3339888944659301926
-      PlaceHolder Hair_3: -2403615023284425778
-      PlaceHolder Hair_4: 5551457060107602389
-      PlaceHolder Hair_5: 1488659391076032953
-      PlaceHolder Hair_6: 1589037545076745396
-      PlaceHolder Hair_7: -7122719001589257417
-      PlaceHolder Hair_8: 2363488807801806293
+      Clothes_0: 4862942130373081034
+      Clothes_1: 7566583126990785104
+      Clothes_10: 6286683622799710322
+      Clothes_11: 8110221161724722410
+      Clothes_12: 7254362255520461511
+      Clothes_13: -637323445732092492
+      Clothes_2: 7798115773135034406
+      Clothes_3: -6630935928423092300
+      Clothes_4: -6475819047146179335
+      Clothes_5: 1741794351880512470
+      Clothes_6: 8927547857190717070
+      Clothes_7: 3954441825173325506
+      Clothes_8: 4366684086613286107
+      Clothes_9: 1290318136122146416
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

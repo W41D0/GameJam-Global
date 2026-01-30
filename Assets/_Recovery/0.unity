@@ -351,21 +351,9 @@ PrefabInstance:
     - target: {fileID: 848361958559256124, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}
       propertyPath: attendee
       value: 
-      objectReference: {fileID: 4126662219425488895, guid: 1d1d3dcd569af244c88f72784f1faea6, type: 3}
-    - target: {fileID: 848361958559256124, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}
-      propertyPath: numOfAssasins
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 848361958559256124, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}
-      propertyPath: numOfAttendees
-      value: 10
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4126662219425488895, guid: 3198f4e49e20d5046805c97425e5de48, type: 3}
     - target: {fileID: 3143152633790894176, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}
       propertyPath: m_Name
-      value: Spawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 3143152633790894176, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}
-      propertyPath: m_TagString
       value: Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 3464745252915529054, guid: 9aa4fe94ae3b3734ea50e342b401a9ba, type: 3}

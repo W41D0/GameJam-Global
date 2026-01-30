@@ -51,11 +51,11 @@ TagManager:
   - name: Head
     uniqueID: 1417821841
     locked: 0
-  - name: Hair
-    uniqueID: 302674273
-    locked: 0
   - name: Mask
     uniqueID: 3054183865
+    locked: 0
+  - name: Hair
+    uniqueID: 302674273
     locked: 0
   m_RenderingLayers:
   - Default

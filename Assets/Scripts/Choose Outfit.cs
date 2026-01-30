@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ChooseOutfit : MonoBehaviour
 {
+
+    bool UniqueFound;
     
     GameObject outfit;
     GameObject head;
@@ -30,9 +32,9 @@ public class ChooseOutfit : MonoBehaviour
     [SerializeField] List<Sprite> femaleClothesList;
     [SerializeField] List<Sprite> femaleHairStyles;
 
-    
 
-    public string outfitHash;
+    string outfitHash;
+    public static List<string> usedOutfitHashes = new List<string>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -50,23 +52,54 @@ public class ChooseOutfit : MonoBehaviour
 
     void ChooseRandomOutfit()
     {
-        int gender = Random.Range(0, 2);
-        if(gender == 0)
+        
+        while(!UniqueFound)
         {
-            head.transform.localPosition = Vector3.up * 1;
+            int hairStyleIndex;
+            int clothesIndex;
+            gender = Random.Range(0, 2);
+            if(gender == 0)//female
+            {
+                head.transform.localPosition = Vector3.up * 1;
+                hairStyleIndex = Random.Range(0, femaleHairStyles.Count);
+                hairStyle.sprite = femaleHairStyles[hairStyleIndex];
+
+                clothesIndex = Random.Range(0, femaleClothesList.Count);
+                clothesStyle.sprite = femaleClothesList[clothesIndex];
+            }
+            else//male
+            {
+                head.transform.localPosition = Vector3.up * 1.2f;
+                hairStyleIndex = Random.Range(0, maleHairStyles.Count);
+                hairStyle.sprite = maleHairStyles[hairStyleIndex];
+
+                clothesIndex = Random.Range(0, maleClothesList.Count);
+                clothesStyle.sprite = maleClothesList[clothesIndex];
+            }
+
+            bodyType.sprite = bodyTypeList[gender];
+
+            int maskIndex = Random.Range(0, maskSprites.Count);
+            mask.sprite = maskSprites[maskIndex];
+
+            int hairColorIndex = Random.Range(0, hairColorList.Count);
+            hairStyle.color = hairColorList[hairColorIndex];
+
+            int bodyColorIndex = Random.Range(0, clothesColorList.Count);
+            bodyType.color = clothesColorList[bodyColorIndex];
+
+            outfitHash = $"{gender}-{maskIndex}-{bodyColorIndex}-{clothesIndex}-{hairStyleIndex}-{hairColorIndex}";
+            if(!usedOutfitHashes.Contains(outfitHash))
+            {
+                usedOutfitHashes.Add(outfitHash);
+                UniqueFound = true;
+            }
         }
-        else
-        {
-            head.transform.localPosition = Vector3.up * 1;
-        }
+    }
 
-        bodyType.sprite = bodyTypeList[gender];
-        Debug.Log("my gender is: " + gender);
+    public string getUniqueHash()
+    {
 
-        int chosenIndex = Random.Range(0, maskSprites.Count);
-        mask.sprite = maskSprites[chosenIndex];
-
-        chosenIndex = Random.Range(0, clothesColorList.Count);
-        bodyType.color = clothesColorList[chosenIndex];
+        return outfitHash;
     }
 }
