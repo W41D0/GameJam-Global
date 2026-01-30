@@ -17,12 +17,11 @@ public class ChooseOutfit : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mask = transform.Find("Mask").GetComponent<SpriteRenderer>();
-        
+        // mask = transform.Find("Mask").GetComponent<SpriteRenderer>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void ChooseRandomOutfit()
     {
         
     }

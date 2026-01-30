@@ -24,7 +24,15 @@ public class AttendeeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         attendee.MovePosition(Vector2.MoveTowards(attendee.position, randomPosition, speed * 2 * Time.deltaTime));
+        if (Vector2.Distance(attendee.position, randomPosition) < 0.1f)
+        {
+            attendee.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            attendee.linearVelocity = (randomPosition - attendee.position).normalized * speed;   
+            Debug.Log("my speed is: " + attendee.linearVelocity);
+        } 
     }
 
     IEnumerator ChooseRandomPosition()
