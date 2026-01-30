@@ -128,8 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 106496521}
-  - component: {fileID: 106496523}
-  - component: {fileID: 106496522}
+  - component: {fileID: 106496526}
+  - component: {fileID: 106496527}
   m_Layer: 0
   m_Name: Aim
   m_TagString: Untagged
@@ -146,13 +146,29 @@ Transform:
   m_GameObject: {fileID: 106496520}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0411, y: -0.0276, z: 0}
-  m_LocalScale: {x: 3.7626877, y: 3.2237248, z: 1}
+  m_LocalPosition: {x: -53.715, y: 35.8349, z: 0}
+  m_LocalScale: {x: 15.497498, y: 13.494598, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1048462063}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &106496522
+--- !u!114 &106496526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106496520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db621e7ba05e4514f86691392b409d84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AimScript
+  depth: 10
+  recoilAmount: 2
+  recoilUpDuration: 0.03
+  recoilReturnDuration: 0.12
+--- !u!212 &106496527
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -199,7 +215,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_MaskInteraction: 0
   m_Sprite: {fileID: -640177929339180639, guid: 67ed78b4b6be843449d97ceffd0f680e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -211,19 +227,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &106496523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106496520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db621e7ba05e4514f86691392b409d84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  depth: 10
 --- !u!1 &359082576
 GameObject:
   m_ObjectHideFlags: 0
