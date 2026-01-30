@@ -3,8 +3,6 @@ using UnityEngine;
 public class AttendeesSpawner : MonoBehaviour
 {
     [SerializeField] GameObject attendee;
-    [SerializeField] float spawnTime1 = 2f;
-    [SerializeField] float spawnTime2 = 5f;
     [SerializeField] int numOfAttendees;
     [SerializeField] Transform pos1;
     [SerializeField] Transform pos2;
@@ -14,15 +12,7 @@ public class AttendeesSpawner : MonoBehaviour
     {
         SpawnScript(numOfAttendees);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
-
-
     void SpawnScript(int numOfAtendees)
     {
         for(int i = 0; i < numOfAtendees; i++)
