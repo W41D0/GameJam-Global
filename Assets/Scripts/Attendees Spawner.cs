@@ -13,6 +13,7 @@ public class AttendeesSpawner : MonoBehaviour
     {
         ChooseOutfit.usedOutfitHashes.Clear();
         SpawnAssasinScript(numOfAssasins);
+        AttendeeBehaviour.numOfAssasinsAlive = numOfAssasins;
         SpawnScript(numOfAttendees);
     }
 

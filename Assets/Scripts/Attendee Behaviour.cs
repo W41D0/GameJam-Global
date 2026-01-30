@@ -9,6 +9,8 @@ public class AttendeeBehaviour : MonoBehaviour
     bool canBeShot = true;
     bool isAlive = true;
 
+    public static int numOfAssasinsAlive = 1;
+
     [Header("Movement")]
     [SerializeField] float speed = 5f;
     [SerializeField] float minIdleTime = 1f;
@@ -82,6 +84,11 @@ public class AttendeeBehaviour : MonoBehaviour
             isAlive = false;
             attendee.linearVelocity = Vector2.zero;
             GetComponentInChildren<PhysicsBobber2D>().TriggerDeath();
+            
+            if(isAssasin)
+            {
+                numOfAssasinsAlive -= 1;
+            }
         }
     }
 
