@@ -2,21 +2,23 @@ using UnityEngine;
 
 public class BackgroundMusic : MonoBehaviour
 {
-    // Static reference so the GameManager can find it easily
     public static BackgroundMusic instance;
 
     void Awake()
     {
-        // THE CHECK:
-        // If a Music Player already exists from the previous level...
+        // 1. FORCE ROOT: Detach from any parents so DontDestroyOnLoad works
+        transform.SetParent(null); 
+
+        // 2. THE CHECK:
         if (instance != null)
         {
-            // ...destroy this NEW one so the OLD one keeps playing seamless audio.
+            // If we find an old music player, we destroy OURSELVES (the new one)
+            // so the old one can keep singing.
             Destroy(gameObject); 
             return;
         }
 
-        // If this is the first one, set it as the "Instance" and keep it alive.
+        // 3. CLAIM THE THRONE:
         instance = this;
         DontDestroyOnLoad(gameObject);
     }
