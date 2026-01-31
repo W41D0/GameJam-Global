@@ -5,6 +5,12 @@ using TMPro; // REQUIRED for the Text
 
 public class GameManager : MonoBehaviour
 {
+    // --- AUDIO SETTINGS (NEW) ---
+    [Header("Sound Effects")]
+    public AudioSource sfxSource;   // Drag the GameManager itself here
+    public AudioClip loseClip;      // Drag your "Game Over" sound here
+    public AudioClip winClip;       // Optional: Drag a "Success" sound here
+
     // --- SCORE SETTINGS (NEW) ---
     public static int score = 0; 
     public TextMeshProUGUI scoreText; // Drag your Score Text here
@@ -108,6 +114,11 @@ public class GameManager : MonoBehaviour
         // --- NEW: SCORE INCREASE ---
         score++; 
         UpdateScoreText(); // Update UI immediately so player sees it go up
+
+        if (sfxSource != null && winClip != null)
+        {
+            sfxSource.PlayOneShot(winClip);
+        }
         // ---------------------------
 
         currentAssassins = Mathf.Min(currentAssassins + assassinIncrease, maxAssassins);
@@ -126,6 +137,11 @@ public class GameManager : MonoBehaviour
         if (BackgroundMusic.instance != null)
         {
             Destroy(BackgroundMusic.instance.gameObject);
+        }
+
+        if (sfxSource != null && loseClip != null)
+        {
+            sfxSource.PlayOneShot(loseClip);
         }
 
         FreezeAndRevealAgents();
