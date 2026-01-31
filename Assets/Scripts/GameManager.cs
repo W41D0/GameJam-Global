@@ -4,41 +4,45 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    // STATIC variables to remember difficulty across scenes
-    public static int currentAssassins = -1; // -1 means "Not set yet"
-    public static int currentAttendees = -1;
+    // --- TIMER SETTINGS ---
+    // STATIC: Remembers the current limit across scene reloads
+    public static float levelTimeLimit = -1f; 
+    public static float currentTime; // Timer current value
+    
+    [Header("Time Difficulty Settings")]
+    public float defaultTime = 60f;   // Starting time (Level 1)
+    public float timeDecrease = 5f;   // Seconds removed per win
+    public float minTimeLimit = 10f;  // Hardest possible limit (cap)
 
-    // To remember the defaults for resetting
+    private bool timerIsRunning = false;
+
+    // --- ATTENDEE/ASSASSIN SETTINGS ---
+    public static int currentAssassins = -1;
+    public static int currentAttendees = -1;
     private static int defaultAssassinsMemory;
     private static int defaultAttendeesMemory;
 
-    // Difficulty settings
+    [Header("Spawner Difficulty Settings")]
     public int assassinIncrease = 1;
     public int attendeeIncrease = 2;
     public int maxAssassins = 10;
     public int maxAttendees = 50;
 
-    int initialAttendeesCount; // For the lose condition check
+    int initialAttendeesCount;
     bool isSceneLoading = false;
 
-    // --- NEW: Helper method called by Spawner ---
+    // Helper to sync Spawner (Same as before)
     public static void SyncDifficulty(ref int spawnerAssassins, ref int spawnerAttendees)
     {
-        // Case 1: First time playing (or after a full reset)
         if (currentAssassins == -1)
         {
-            // We take the values FROM the Spawner
             currentAssassins = spawnerAssassins;
             currentAttendees = spawnerAttendees;
-
-            // Memorize them so we can reset later
             defaultAssassinsMemory = spawnerAssassins;
             defaultAttendeesMemory = spawnerAttendees;
         }
-        // Case 2: Round 2, 3, etc.
         else
         {
-            // We force the Spawner to use OUR values
             spawnerAssassins = currentAssassins;
             spawnerAttendees = currentAttendees;
         }
@@ -46,41 +50,83 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Capture the count for the "Did anyone die?" check
+        // 1. Initialize Time Limit if it's the very first run
+        if (levelTimeLimit == -1f)
+        {
+            levelTimeLimit = defaultTime;
+        }
+
+        // 2. Set the current timer to the level's limit
+        currentTime = levelTimeLimit;
+        timerIsRunning = true;
+
         initialAttendeesCount = AttendeeBehaviour.numOfAttendeesAlive;
+        
+        // Debug check to see difficulty
+        Debug.Log($"Level Start: Time={levelTimeLimit}s, Assassins={currentAssassins}, Attendees={currentAttendees}");
     }
 
     void Update()
     {
-        // WIN CONDITION
-        if (!isSceneLoading && AttendeeBehaviour.numOfAssasinsAlive == 0)
+        // TIMER LOGIC
+        if (timerIsRunning)
         {
+            if (currentTime > 0)
+            {
+                currentTime -= Time.deltaTime;
+            }
+            else
+            {
+                currentTime = 0;
+                timerIsRunning = false;
+                HandleLoss(); // Time ran out = Lose
+                StartCoroutine(LoadSceneAfterDelay(2));
+            }
+        }
+
+        // WIN CONDITION
+        if (timerIsRunning && !isSceneLoading && AttendeeBehaviour.numOfAssasinsAlive == 0)
+        {
+            timerIsRunning = false;
             HandleWin();
             StartCoroutine(LoadSceneAfterDelay(1));
         }
 
-        // LOSE CONDITION
+        // LOSE CONDITION (Civilian death)
         if (!isSceneLoading && AttendeeBehaviour.numOfAttendeesAlive < initialAttendeesCount)
         {
+            timerIsRunning = false;
             HandleLoss();
             StartCoroutine(LoadSceneAfterDelay(2));
         }
     }
 
-    void HandleWin()
+   void HandleWin()
     {
-        // Increase difficulty
+        FreezeAndRevealAgents(); // <--- ADD THIS
+
+        // Increase Enemy Count
         currentAssassins = Mathf.Min(currentAssassins + assassinIncrease, maxAssassins);
         currentAttendees = Mathf.Min(currentAttendees + attendeeIncrease, maxAttendees);
-        Debug.Log("Win! Increasing difficulty.");
+
+        // Decrease Time
+        levelTimeLimit = Mathf.Max(levelTimeLimit - timeDecrease, minTimeLimit);
+
+        Debug.Log("Win! Difficulty increased.");
     }
 
     void HandleLoss()
     {
-        // Reset to the values we memorized at the very start
+        FreezeAndRevealAgents(); // <--- ADD THIS
+
+        // Reset Enemy Count
         currentAssassins = defaultAssassinsMemory;
         currentAttendees = defaultAttendeesMemory;
-        Debug.Log("Lost! Resetting to defaults.");
+
+        // Reset Time
+        levelTimeLimit = defaultTime;
+
+        Debug.Log("Lost! Resetting all stats to default.");
     }
 
     IEnumerator LoadSceneAfterDelay(int sceneIndex)
@@ -88,5 +134,31 @@ public class GameManager : MonoBehaviour
         isSceneLoading = true;
         yield return new WaitForSeconds(2f);
         SceneManager.LoadSceneAsync(sceneIndex);
+    }
+
+    void FreezeAndRevealAgents()
+    {
+        // 1. Find every Attendee/Assassin
+        // (Note: Use FindObjectsOfType for older Unity versions)
+        AttendeeBehaviour[] allAgents = FindObjectsByType<AttendeeBehaviour>(FindObjectsSortMode.None);
+
+        foreach (AttendeeBehaviour agent in allAgents)
+        {
+            // 2. Stop movement
+            agent.setCanMove(false);
+
+            // 3. Highlight ONLY the Assassins
+            if (agent.gameObject.GetComponent<AttendeeBehaviour>().getIsAssasin()) 
+            {
+                // Get EVERY sprite renderer in this object and all its children/grandchildren
+                SpriteRenderer[] allSprites = agent.GetComponentsInChildren<SpriteRenderer>();
+
+                // Loop through them and turn them ALL red
+                foreach (SpriteRenderer sprite in allSprites)
+                {
+                    sprite.color = Color.yellow;
+                }
+            }
+        }
     }
 }

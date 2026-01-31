@@ -7,6 +7,7 @@ public class AttendeeBehaviour : MonoBehaviour
 {
     public bool isAssasin;
     bool isAlive = true;
+    bool canMove = true;
 
     public static int numOfAssasinsAlive = 1;
     public static int numOfAttendeesAlive = 1;
@@ -50,7 +51,7 @@ public class AttendeeBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isAlive)
+        if(isAlive && canMove)
         {
             if (Vector2.Distance(attendee.position, randomPosition) < 0.1f)
             {
@@ -127,5 +128,11 @@ public class AttendeeBehaviour : MonoBehaviour
     public void setUniqueHash(string uniqueHash)
     {
         this.uniqueHash = uniqueHash;
+    }
+
+    public void setCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+        attendee.linearVelocity = Vector2.zero;
     }
 }
