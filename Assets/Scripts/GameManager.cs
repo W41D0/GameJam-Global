@@ -5,15 +5,15 @@ using TMPro; // REQUIRED for the Text
 
 public class GameManager : MonoBehaviour
 {
-    // --- AUDIO SETTINGS (NEW) ---
+    // --- AUDIO SETTINGS ---
     [Header("Sound Effects")]
-    public AudioSource sfxSource;   // Drag the GameManager itself here
-    public AudioClip loseClip;      // Drag your "Game Over" sound here
-    public AudioClip winClip;       // Optional: Drag a "Success" sound here
+    public AudioSource sfxSource;   
+    public AudioClip loseClip;      
+    public AudioClip winClip;       
 
-    // --- SCORE SETTINGS (NEW) ---
+    // --- SCORE SETTINGS ---
     public static int score = 0; 
-    public TextMeshProUGUI scoreText; // Drag your Score Text here
+    public TextMeshProUGUI scoreText; 
 
     // --- TIMER SETTINGS ---
     public static float levelTimeLimit = -1f; 
@@ -38,8 +38,9 @@ public class GameManager : MonoBehaviour
     public int maxAssassins = 10;
     public int maxAttendees = 50;
 
-    int initialAttendeesCount;
+    // --- SAFETY VARIABLES ---
     bool isSceneLoading = false;
+    private bool canLose = false; // Prevents instant loss when level loads
 
     public static void SyncDifficulty(ref int spawnerAssassins, ref int spawnerAttendees)
     {
@@ -63,13 +64,21 @@ public class GameManager : MonoBehaviour
         if (levelTimeLimit == -1f) levelTimeLimit = defaultTime;
         currentTime = levelTimeLimit;
         timerIsRunning = true;
-
-        initialAttendeesCount = AttendeeBehaviour.numOfAttendeesAlive;
         
-        // 2. Update Score Display at start of level
+        // 2. Update Score Display
         UpdateScoreText();
 
+        // 3. START GRACE PERIOD (Fixes the instant loss/audio bug)
+        StartCoroutine(EnableLossCheck());
+
         Debug.Log($"Level Start: Score={score}, Time={levelTimeLimit}");
+    }
+
+    // Waits 0.5s before checking for deaths to let the Spawner finish
+    IEnumerator EnableLossCheck()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canLose = true;
     }
 
     void Update()
@@ -98,8 +107,9 @@ public class GameManager : MonoBehaviour
             StartCoroutine(LoadSceneAfterDelay(1));
         }
 
-        // LOSE CONDITION
-        if (!isSceneLoading && AttendeeBehaviour.numOfAttendeesAlive < initialAttendeesCount)
+        // LOSE CONDITION (Modified for safety)
+        // We check 'canLose' to make sure the level has fully loaded first
+        if (!isSceneLoading && canLose && AttendeeBehaviour.numOfAttendeesAlive < currentAttendees)
         {
             timerIsRunning = false;
             HandleLoss();
@@ -111,15 +121,14 @@ public class GameManager : MonoBehaviour
     {
         FreezeAndRevealAgents();
 
-        // --- NEW: SCORE INCREASE ---
+        // SCORE INCREASE
         score++; 
-        UpdateScoreText(); // Update UI immediately so player sees it go up
+        UpdateScoreText(); 
 
         if (sfxSource != null && winClip != null)
         {
             sfxSource.PlayOneShot(winClip);
         }
-        // ---------------------------
 
         currentAssassins = Mathf.Min(currentAssassins + assassinIncrease, maxAssassins);
         currentAttendees = Mathf.Min(currentAttendees + attendeeIncrease, maxAttendees);
@@ -130,9 +139,8 @@ public class GameManager : MonoBehaviour
 
     void HandleLoss()
     {
-        // --- NEW: SCORE RESET ---
+        // SCORE RESET
         score = 0;
-        // ------------------------
 
         if (BackgroundMusic.instance != null)
         {
@@ -152,7 +160,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Lost! Score reset to 0.");
     }
 
-    // Helper to update the text safely
     void UpdateScoreText()
     {
         if (scoreText != null)
@@ -180,7 +187,7 @@ public class GameManager : MonoBehaviour
 
             if (agent.getIsAssasin()) 
             {
-                // ASSASSIN: Make them bright White (Spotlight effect)
+                // ASSASSIN: Bright White
                 foreach (SpriteRenderer sprite in allSprites)
                 {
                     sprite.color = Color.white; 
@@ -188,7 +195,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                // INNOCENT: Make them Grey (Fade out)
+                // INNOCENT: Grey
                 foreach (SpriteRenderer sprite in allSprites)
                 {
                     sprite.color = Color.gray; 

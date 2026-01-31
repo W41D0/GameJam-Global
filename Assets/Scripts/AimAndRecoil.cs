@@ -1,84 +1,99 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // 1. Add this namespace
+using UnityEngine.InputSystem; 
 
 public class AimScript : MonoBehaviour
 {
-    int initialAttendees;
-    private SpriteRenderer spriteRenderer;
-    
-    void Start()
-    {
-        initialAttendees = AttendeeBehaviour.numOfAttendeesAlive;
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        gameObject.SetActive(true);      // Re-enable gameObject at start of each game
-        spriteRenderer.enabled = true;   // Ensure sprite is visible at start of each game
-    }
-    // In ScreenToWorldPoint, the Z value is "distance from camera", not movement speed.
-    // I renamed 'speed' to 'depth' to make it clearer.
-    public float depth = 10f; 
-    [Header("Recoil")]
-    public float recoilAmount = 0.2f; // world units to move up
-    public float recoilUpDuration = 0.03f;
-    public float recoilReturnDuration = 0.12f;
+    private SpriteRenderer spriteRenderer;
+    
+    // Safety flag to prevent the script from thinking we won/lost 
+    // before the enemies have even spawned.
+    private bool canCheckConditions = false; 
 
-    private Vector3 recoilOffset = Vector3.zero;
-    private Coroutine recoilCoroutine;
+    public float depth = 10f; 
+    
+    [Header("Recoil")]
+    public float recoilAmount = 0.2f; 
+    public float recoilUpDuration = 0.03f;
+    public float recoilReturnDuration = 0.12f;
 
-    void Update()
-    {
-        // Check if all assassins are killed or an attendee died
-        if (AttendeeBehaviour.numOfAssasinsAlive == 0 || AttendeeBehaviour.numOfAttendeesAlive < initialAttendees)
-        {
-            spriteRenderer.enabled = false;
-            return;
-        }
+    private Vector3 recoilOffset = Vector3.zero;
+    private Coroutine recoilCoroutine;
 
-        // 2. Check if a mouse is connected
-        if (Mouse.current == null) return;
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        // 1. Force Visible immediately
+        gameObject.SetActive(true);      
+        spriteRenderer.enabled = true;   
 
-        // 3. Get the position from the New Input System
-        Vector2 mousePos2D = Mouse.current.position.ReadValue();
+        // 2. Start the Grace Period (Wait 0.5s before checking Win/Loss)
+        StartCoroutine(EnableLogicAfterDelay());
+    }
 
-        // 4. Create the vector (X, Y, Depth)
-        Vector3 screenPos = new Vector3(mousePos2D.x, mousePos2D.y, depth);
+    System.Collections.IEnumerator EnableLogicAfterDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        canCheckConditions = true;
+    }
 
-        // 5. Convert to world and apply recoil offset
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
-        transform.position = worldPos + recoilOffset;
+    void Update()
+    {
+        // 3. Only check for Win/Loss if the level is fully loaded
+        if (canCheckConditions)
+        {
+            // We use GameManager.currentAttendees because it's the reliable number
+            if (AttendeeBehaviour.numOfAssasinsAlive == 0 || 
+                (GameManager.currentAttendees > 0 && AttendeeBehaviour.numOfAttendeesAlive < GameManager.currentAttendees))
+            {
+                spriteRenderer.enabled = false;
+                // We do NOT return here, so the cursor position still updates 
+                // (otherwise the recoil gets stuck in mid-air if you lose)
+            }
+        }
 
-        // 6. Trigger recoil on left mouse click
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if (recoilCoroutine != null) StopCoroutine(recoilCoroutine);
-            recoilCoroutine = StartCoroutine(RecoilRoutine());
-        }
-    }
+        if (Mouse.current == null) return;
 
-    private System.Collections.IEnumerator RecoilRoutine()
-    {
-        float elapsed = 0f;
+        // Position Logic
+        Vector2 mousePos2D = Mouse.current.position.ReadValue();
+        Vector3 screenPos = new Vector3(mousePos2D.x, mousePos2D.y, depth);
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        transform.position = worldPos + recoilOffset;
 
-        // move up
-        while (elapsed < recoilUpDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / recoilUpDuration);
-            recoilOffset.y = Mathf.Lerp(0f, recoilAmount, t);
-            yield return null;
-        }
+        // Recoil Logic
+        // We add 'spriteRenderer.enabled' check so you can't shoot if the cursor is hidden
+        if (spriteRenderer.enabled && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if (recoilCoroutine != null) StopCoroutine(recoilCoroutine);
+            recoilCoroutine = StartCoroutine(RecoilRoutine());
+        }
+    }
 
-        // return
-        elapsed = 0f;
-        float start = recoilOffset.y;
-        while (elapsed < recoilReturnDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / recoilReturnDuration);
-            recoilOffset.y = Mathf.Lerp(start, 0f, t);
-            yield return null;
-        }
+    private System.Collections.IEnumerator RecoilRoutine()
+    {
+        float elapsed = 0f;
 
-        recoilOffset.y = 0f;
-        recoilCoroutine = null;
-    }
+        // move up
+        while (elapsed < recoilUpDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / recoilUpDuration);
+            recoilOffset.y = Mathf.Lerp(0f, recoilAmount, t);
+            yield return null;
+        }
+
+        // return
+        elapsed = 0f;
+        float start = recoilOffset.y;
+        while (elapsed < recoilReturnDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / recoilReturnDuration);
+            recoilOffset.y = Mathf.Lerp(start, 0f, t);
+            yield return null;
+        }
+
+        recoilOffset.y = 0f;
+        recoilCoroutine = null;
+    }
 }

@@ -1,7 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 
 public class ChooseOutfit : MonoBehaviour
 {
