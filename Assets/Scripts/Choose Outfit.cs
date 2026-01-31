@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class ChooseOutfit : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class ChooseOutfit : MonoBehaviour
     GameObject head;
     GameObject body;
     SpriteRenderer mask;
-
 
     int gender;
     SpriteRenderer bodyType;
@@ -99,7 +99,6 @@ public class ChooseOutfit : MonoBehaviour
 
     public string getUniqueHash()
     {
-
         return outfitHash;
     }
 }

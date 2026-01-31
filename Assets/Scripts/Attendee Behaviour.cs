@@ -16,6 +16,7 @@ public class AttendeeBehaviour : MonoBehaviour
     [SerializeField] float minIdleTime = 1f;
     [SerializeField] float maxIdleTime = 3f;
 
+    GameObject paper;
     GameObject spawner;
     Transform pos1;
     Transform pos2;
@@ -26,6 +27,7 @@ public class AttendeeBehaviour : MonoBehaviour
 
     int defaultLayer;
     int ignoreLayer;
+    string uniqueHash;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -38,6 +40,7 @@ public class AttendeeBehaviour : MonoBehaviour
 
     void Start()
     {
+        paper = GameObject.Find("Paper");
         spawner = GameObject.FindGameObjectWithTag("Spawner");
         pos1 = GameObject.Find("Pos1").transform;
         pos2 = GameObject.Find("Pos2").transform;
@@ -89,6 +92,8 @@ public class AttendeeBehaviour : MonoBehaviour
             if(isAssasin)
             {
                 numOfAssasinsAlive -= 1;
+                paper.GetComponent<AssasinAtributesChecklist>().removeAssasinFromList(uniqueHash);
+                StartCoroutine(paper.GetComponent<AssasinAtributesChecklist>().pickAssasin());
             }
             else
             {
@@ -117,5 +122,10 @@ public class AttendeeBehaviour : MonoBehaviour
     public void setIsAssasin(bool isAssasin)
     {
         this.isAssasin = isAssasin;
+    }
+
+    public void setUniqueHash(string uniqueHash)
+    {
+        this.uniqueHash = uniqueHash;
     }
 }
