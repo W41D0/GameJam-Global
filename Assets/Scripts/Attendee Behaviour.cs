@@ -84,6 +84,7 @@ public class AttendeeBehaviour : MonoBehaviour
             isAlive = false;
             attendee.linearVelocity = Vector2.zero;
             GetComponentInChildren<PhysicsBobber2D>().TriggerDeath();
+            //add script to play blood splat
             
             if(isAssasin)
             {
