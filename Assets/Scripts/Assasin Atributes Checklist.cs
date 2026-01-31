@@ -24,14 +24,13 @@ public class AssasinAtributesChecklist : MonoBehaviour
 
     GameObject head;
     GameObject body;
-    UnityEngine.UI.Image mask;
+    Image mask;
 
     int gender;
     Image bodyType;
     Image clothesStyle;
     Image hairStyle;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         head = gameObject.transform.Find("Head").gameObject;

@@ -30,7 +30,6 @@ public class AttendeeBehaviour : MonoBehaviour
     int ignoreLayer;
     string uniqueHash;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         defaultLayer = gameObject.layer;
@@ -48,7 +47,6 @@ public class AttendeeBehaviour : MonoBehaviour
         StartCoroutine(ChooseRandomPosition());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(isAlive && canMove)
@@ -88,7 +86,6 @@ public class AttendeeBehaviour : MonoBehaviour
             isAlive = false;
             attendee.linearVelocity = Vector2.zero;
             GetComponentInChildren<PhysicsBobber2D>().TriggerDeath();
-            //add script to play blood splat
             
             if(isAssasin)
             {

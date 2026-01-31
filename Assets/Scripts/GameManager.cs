@@ -5,17 +5,15 @@ using TMPro; // REQUIRED for the Text
 
 public class GameManager : MonoBehaviour
 {
-    // --- AUDIO SETTINGS ---
+    public static bool isGameOver = false;
     [Header("Sound Effects")]
     public AudioSource sfxSource;   
     public AudioClip loseClip;      
     public AudioClip winClip;       
 
-    // --- SCORE SETTINGS ---
     public static int score = 0; 
     public TextMeshProUGUI scoreText; 
 
-    // --- TIMER SETTINGS ---
     public static float levelTimeLimit = -1f; 
     public static float currentTime; 
     
@@ -26,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     private bool timerIsRunning = false;
 
-    // --- ATTENDEE/ASSASSIN SETTINGS ---
     public static int currentAssassins = -1;
     public static int currentAttendees = -1;
     private static int defaultAssassinsMemory;
@@ -38,7 +35,6 @@ public class GameManager : MonoBehaviour
     public int maxAssassins = 10;
     public int maxAttendees = 50;
 
-    // --- SAFETY VARIABLES ---
     bool isSceneLoading = false;
     private bool canLose = false; // Prevents instant loss when level loads
 
@@ -60,21 +56,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // 1. Initialize Time
         if (levelTimeLimit == -1f) levelTimeLimit = defaultTime;
         currentTime = levelTimeLimit;
         timerIsRunning = true;
+        isGameOver = false;
         
-        // 2. Update Score Display
         UpdateScoreText();
 
-        // 3. START GRACE PERIOD (Fixes the instant loss/audio bug)
         StartCoroutine(EnableLossCheck());
-
-        Debug.Log($"Level Start: Score={score}, Time={levelTimeLimit}");
+        if (levelTimeLimit == -1f) levelTimeLimit = defaultTime;
     }
 
-    // Waits 0.5s before checking for deaths to let the Spawner finish
     IEnumerator EnableLossCheck()
     {
         yield return new WaitForSeconds(0.5f);
@@ -83,7 +75,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // TIMER LOGIC
         if (timerIsRunning)
         {
             if (currentTime > 0)
@@ -99,7 +90,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // WIN CONDITION
         if (timerIsRunning && !isSceneLoading && AttendeeBehaviour.numOfAssasinsAlive == 0)
         {
             timerIsRunning = false;
@@ -107,8 +97,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(LoadSceneAfterDelay(1));
         }
 
-        // LOSE CONDITION (Modified for safety)
-        // We check 'canLose' to make sure the level has fully loaded first
         if (!isSceneLoading && canLose && AttendeeBehaviour.numOfAttendeesAlive < currentAttendees)
         {
             timerIsRunning = false;
@@ -119,9 +107,8 @@ public class GameManager : MonoBehaviour
 
    void HandleWin()
     {
+        isGameOver = true;
         FreezeAndRevealAgents();
-
-        // SCORE INCREASE
         score++; 
         UpdateScoreText(); 
 
@@ -133,13 +120,11 @@ public class GameManager : MonoBehaviour
         currentAssassins = Mathf.Min(currentAssassins + assassinIncrease, maxAssassins);
         currentAttendees = Mathf.Min(currentAttendees + attendeeIncrease, maxAttendees);
         levelTimeLimit = Mathf.Max(levelTimeLimit - timeDecrease, minTimeLimit);
-
-        Debug.Log("Win! Score is now: " + score);
     }
 
     void HandleLoss()
     {
-        // SCORE RESET
+        isGameOver = true;
         score = 0;
 
         if (BackgroundMusic.instance != null)
@@ -185,17 +170,8 @@ public class GameManager : MonoBehaviour
             
             SpriteRenderer[] allSprites = agent.GetComponentsInChildren<SpriteRenderer>(true);
 
-            if (agent.getIsAssasin()) 
+            if (!agent.getIsAssasin()) 
             {
-                // ASSASSIN: Bright White
-                foreach (SpriteRenderer sprite in allSprites)
-                {
-                    sprite.color = Color.white; 
-                }
-            }
-            else
-            {
-                // INNOCENT: Grey
                 foreach (SpriteRenderer sprite in allSprites)
                 {
                     sprite.color = Color.gray; 

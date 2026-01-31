@@ -44,7 +44,6 @@ public class wiggascript : MonoBehaviour
             if (keyboard.sKey.isPressed)
             {
                 y -= 1f;
-                // Cancel jump if "s" is pressed while jumping
                 if (isJumping && rb != null && rb.linearVelocity.y > 0)
                 {
                     rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
@@ -58,7 +57,6 @@ public class wiggascript : MonoBehaviour
         moveInput = new Vector2(x, y);
         if (moveInput.sqrMagnitude > 1f) moveInput.Normalize();
 
-        // Track falling state
         if (rb != null)
         {
             wasFalling = rb.linearVelocity.y < -0.01f;
@@ -91,7 +89,6 @@ public class wiggascript : MonoBehaviour
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             Vector2 jumpDirection = Vector2.up;
             
-            // Allow diagonal jumping based on horizontal input
             if (moveInput.x != 0f)
             {
                 jumpDirection = new Vector2(moveInput.x, 1f).normalized;

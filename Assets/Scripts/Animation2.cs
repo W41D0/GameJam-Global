@@ -5,7 +5,6 @@ public class PhysicsBobber2D : MonoBehaviour
     [Header("Setup")]
     [SerializeField] Rigidbody2D parentRb;
     
-    // NEW: Arrays to hold multiple parts
     private SpriteRenderer[] childRenderers; 
     private Color[] defaultColors;
 
@@ -36,10 +35,8 @@ public class PhysicsBobber2D : MonoBehaviour
         if (parentRb == null) 
             parentRb = GetComponentInParent<Rigidbody2D>();
 
-        // 1. Find ALL sprites inside this object (Head, Body, Arms, etc.)
         childRenderers = GetComponentsInChildren<SpriteRenderer>();
         
-        // 2. Create a list to remember the normal color of each part
         defaultColors = new Color[childRenderers.Length];
 
         for (int i = 0; i < childRenderers.Length; i++)
@@ -58,7 +55,6 @@ public class PhysicsBobber2D : MonoBehaviour
             return; 
         }
 
-        // Use .velocity for Unity 5-2022, .linearVelocity for Unity 6
         float speed = Mathf.Abs(parentRb.linearVelocity.x); 
 
         if (speed > minSpeed)
@@ -85,7 +81,6 @@ public class PhysicsBobber2D : MonoBehaviour
         
         if(parentRb != null) parentRb.linearVelocity = Vector2.zero;
 
-        // 3. Loop through EVERY sprite and turn it Red
         foreach (SpriteRenderer sr in childRenderers)
         {
             sr.color = flashColor;
@@ -96,14 +91,12 @@ public class PhysicsBobber2D : MonoBehaviour
     {
         deathTimer += Time.deltaTime;
 
-        // --- PHASE 1: THE POP ---
         if (deathTimer < 0.15f)
         {
             Vector3 popTarget = initialLocalPos + Vector3.up * deathPopHeight;
             transform.localPosition = Vector3.Lerp(transform.localPosition, popTarget, Time.deltaTime * deathPopSpeed);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, Time.deltaTime * 10f);
         }
-        // --- PHASE 2: THE FALL ---
         else
         {
             transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, Time.deltaTime * 5f);
@@ -111,7 +104,6 @@ public class PhysicsBobber2D : MonoBehaviour
             Quaternion targetRot = Quaternion.Euler(0, 0, deathTargetAngle);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRot, Time.deltaTime * 5f);
 
-            // 4. Loop through EVERY sprite and fade it back to its OWN normal color
             for (int i = 0; i < childRenderers.Length; i++)
             {
                 childRenderers[i].color = Color.Lerp(childRenderers[i].color, defaultColors[i], Time.deltaTime * 3f);

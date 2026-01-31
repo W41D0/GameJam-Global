@@ -7,13 +7,11 @@ public class TempMovingScript : MonoBehaviour
     public float moveSpeed = 5f;
     Rigidbody2D rb2d;
 
-    // Use this for initialization
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float moveX = 0f;

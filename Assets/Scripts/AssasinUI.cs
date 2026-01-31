@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; // Required for TextMeshPro
+using TMPro;
 
 public class AssassinUI : MonoBehaviour
 {
@@ -7,10 +7,8 @@ public class AssassinUI : MonoBehaviour
 
     void Update()
     {
-        // Reads the static variable from your Attendee script
         int currentCount = AttendeeBehaviour.numOfAssasinsAlive;
         
-        // Updates text to look like "Assassins: 5"
         countText.text = "Assassins: " + currentCount.ToString();
     }
 }
