@@ -99,6 +99,7 @@ public class AttendeeBehaviour : MonoBehaviour
             else
             {
                 numOfAttendeesAlive -= 1;
+
             }
         }
     }

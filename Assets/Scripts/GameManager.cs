@@ -138,25 +138,27 @@ public class GameManager : MonoBehaviour
 
     void FreezeAndRevealAgents()
     {
-        // 1. Find every Attendee/Assassin
-        // (Note: Use FindObjectsOfType for older Unity versions)
+        // 1. Find every Attendee/Assassin in the scene
         AttendeeBehaviour[] allAgents = FindObjectsByType<AttendeeBehaviour>(FindObjectsSortMode.None);
 
         foreach (AttendeeBehaviour agent in allAgents)
         {
-            // 2. Stop movement
+            // Stop their movement
             agent.setCanMove(false);
+            
+            // Get all body parts (Head, Body, Clothes)
+            SpriteRenderer[] allSprites = agent.GetComponentsInChildren<SpriteRenderer>(true);
 
-            // 3. Highlight ONLY the Assassins
             if (agent.gameObject.GetComponent<AttendeeBehaviour>().getIsAssasin()) 
             {
-                // Get EVERY sprite renderer in this object and all its children/grandchildren
-                SpriteRenderer[] allSprites = agent.GetComponentsInChildren<SpriteRenderer>();
-
-                // Loop through them and turn them ALL red
+           
+            }
+            else
+            {
+                // EVERYONE ELSE (Alive Attendees AND Dead Bodies): Turn Darker/Grey
                 foreach (SpriteRenderer sprite in allSprites)
                 {
-                    sprite.color = Color.yellow;
+                    sprite.color = Color.gray; 
                 }
             }
         }
