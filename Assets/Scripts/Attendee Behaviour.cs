@@ -90,6 +90,10 @@ public class AttendeeBehaviour : MonoBehaviour
             {
                 numOfAssasinsAlive -= 1;
             }
+            else
+            {
+                numOfAttendeesAlive -= 1;
+            }
         }
     }
 
