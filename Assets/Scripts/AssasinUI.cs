@@ -9,6 +9,6 @@ public class AssassinUI : MonoBehaviour
     {
         int currentCount = AttendeeBehaviour.numOfAssasinsAlive;
         
-        countText.text = "Assassins: " + currentCount.ToString();
+        countText.text = "Targets: " + currentCount.ToString();
     }
 }

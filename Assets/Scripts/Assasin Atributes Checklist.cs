@@ -86,7 +86,14 @@ public class AssasinAtributesChecklist : MonoBehaviour
 
             bodyType.sprite = bodyTypeList[gender];
             mask.sprite = maskSprites[maskIndex];
-            hairStyle.color = hairColorList[hairColorIndex];
+            if (gender == 1 && hairStyleIndex == 0)
+            {
+                hairStyle.color = new Color32(218, 165, 32, 255);
+            }
+            else
+            {
+                hairStyle.color = hairColorList[hairColorIndex];
+            }
             bodyType.color = clothesColorList[bodyColorIndex];
     }
 }

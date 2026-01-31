@@ -157,7 +157,14 @@ public class GameManager : MonoBehaviour
     {
         isSceneLoading = true;
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadSceneAsync(sceneIndex);
+        if (SceneTransition.instance != null)
+        {
+            SceneTransition.instance.LoadLevel(sceneIndex);
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneIndex);
+        }
     }
 
     void FreezeAndRevealAgents()
