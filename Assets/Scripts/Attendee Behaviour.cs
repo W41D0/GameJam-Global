@@ -9,6 +9,7 @@ public class AttendeeBehaviour : MonoBehaviour
     bool isAlive = true;
 
     public static int numOfAssasinsAlive = 1;
+    public static int numOfAttendeesAlive = 1;
 
     [Header("Movement")]
     [SerializeField] float speed = 5f;
