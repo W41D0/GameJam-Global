@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using TMPro; // REQUIRED for the Text
 
 public class GameManager : MonoBehaviour
 {
+    // --- SCORE SETTINGS (NEW) ---
+    public static int score = 0; 
+    public TextMeshProUGUI scoreText; // Drag your Score Text here
+
     // --- TIMER SETTINGS ---
-    // STATIC: Remembers the current limit across scene reloads
     public static float levelTimeLimit = -1f; 
-    public static float currentTime; // Timer current value
+    public static float currentTime; 
     
     [Header("Time Difficulty Settings")]
-    public float defaultTime = 60f;   // Starting time (Level 1)
-    public float timeDecrease = 5f;   // Seconds removed per win
-    public float minTimeLimit = 10f;  // Hardest possible limit (cap)
+    public float defaultTime = 60f;   
+    public float timeDecrease = 5f;   
+    public float minTimeLimit = 10f;  
 
     private bool timerIsRunning = false;
 
@@ -31,7 +35,6 @@ public class GameManager : MonoBehaviour
     int initialAttendeesCount;
     bool isSceneLoading = false;
 
-    // Helper to sync Spawner (Same as before)
     public static void SyncDifficulty(ref int spawnerAssassins, ref int spawnerAttendees)
     {
         if (currentAssassins == -1)
@@ -50,20 +53,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // 1. Initialize Time Limit if it's the very first run
-        if (levelTimeLimit == -1f)
-        {
-            levelTimeLimit = defaultTime;
-        }
-
-        // 2. Set the current timer to the level's limit
+        // 1. Initialize Time
+        if (levelTimeLimit == -1f) levelTimeLimit = defaultTime;
         currentTime = levelTimeLimit;
         timerIsRunning = true;
 
         initialAttendeesCount = AttendeeBehaviour.numOfAttendeesAlive;
         
-        // Debug check to see difficulty
-        Debug.Log($"Level Start: Time={levelTimeLimit}s, Assassins={currentAssassins}, Attendees={currentAttendees}");
+        // 2. Update Score Display at start of level
+        UpdateScoreText();
+
+        Debug.Log($"Level Start: Score={score}, Time={levelTimeLimit}");
     }
 
     void Update()
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
             {
                 currentTime = 0;
                 timerIsRunning = false;
-                HandleLoss(); // Time ran out = Lose
+                HandleLoss();
                 StartCoroutine(LoadSceneAfterDelay(2));
             }
         }
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(LoadSceneAfterDelay(1));
         }
 
-        // LOSE CONDITION (Civilian death)
+        // LOSE CONDITION
         if (!isSceneLoading && AttendeeBehaviour.numOfAttendeesAlive < initialAttendeesCount)
         {
             timerIsRunning = false;
@@ -103,33 +103,46 @@ public class GameManager : MonoBehaviour
 
    void HandleWin()
     {
-        FreezeAndRevealAgents(); // <--- ADD THIS
+        FreezeAndRevealAgents();
 
-        // Increase Enemy Count
+        // --- NEW: SCORE INCREASE ---
+        score++; 
+        UpdateScoreText(); // Update UI immediately so player sees it go up
+        // ---------------------------
+
         currentAssassins = Mathf.Min(currentAssassins + assassinIncrease, maxAssassins);
         currentAttendees = Mathf.Min(currentAttendees + attendeeIncrease, maxAttendees);
-
-        // Decrease Time
         levelTimeLimit = Mathf.Max(levelTimeLimit - timeDecrease, minTimeLimit);
 
-        Debug.Log("Win! Difficulty increased.");
+        Debug.Log("Win! Score is now: " + score);
     }
 
     void HandleLoss()
     {
-        // 1. Kill the Music (This stops the sound)
+        // --- NEW: SCORE RESET ---
+        score = 0;
+        // ------------------------
+
         if (BackgroundMusic.instance != null)
         {
             Destroy(BackgroundMusic.instance.gameObject);
         }
 
-        // 2. Your existing logic...
         FreezeAndRevealAgents();
         currentAssassins = defaultAssassinsMemory;
         currentAttendees = defaultAttendeesMemory;
         levelTimeLimit = defaultTime;
 
-        Debug.Log("Lost! Music stopped and stats reset.");
+        Debug.Log("Lost! Score reset to 0.");
+    }
+
+    // Helper to update the text safely
+    void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Succesful Missions: " + score;
+        }
     }
 
     IEnumerator LoadSceneAfterDelay(int sceneIndex)
@@ -141,24 +154,25 @@ public class GameManager : MonoBehaviour
 
     void FreezeAndRevealAgents()
     {
-        // 1. Find every Attendee/Assassin in the scene
         AttendeeBehaviour[] allAgents = FindObjectsByType<AttendeeBehaviour>(FindObjectsSortMode.None);
 
         foreach (AttendeeBehaviour agent in allAgents)
         {
-            // Stop their movement
             agent.setCanMove(false);
             
-            // Get all body parts (Head, Body, Clothes)
             SpriteRenderer[] allSprites = agent.GetComponentsInChildren<SpriteRenderer>(true);
 
-            if (agent.gameObject.GetComponent<AttendeeBehaviour>().getIsAssasin()) 
+            if (agent.getIsAssasin()) 
             {
-           
+                // ASSASSIN: Make them bright White (Spotlight effect)
+                foreach (SpriteRenderer sprite in allSprites)
+                {
+                    sprite.color = Color.white; 
+                }
             }
             else
             {
-                // EVERYONE ELSE (Alive Attendees AND Dead Bodies): Turn Darker/Grey
+                // INNOCENT: Make them Grey (Fade out)
                 foreach (SpriteRenderer sprite in allSprites)
                 {
                     sprite.color = Color.gray; 
