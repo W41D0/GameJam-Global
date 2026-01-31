@@ -4,20 +4,27 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     int initialAttendees;
+    bool isSceneLoading = false;
     void Start()
     {
         initialAttendees = AttendeeBehaviour.numOfAttendeesAlive;
     }
     void Update()
     {
-        if (AttendeeBehaviour.numOfAssasinsAlive == 0)
+        if (!isSceneLoading && AttendeeBehaviour.numOfAssasinsAlive == 0)
         {
-            SceneManager.LoadSceneAsync(3);
+            StartCoroutine(LoadSceneAfterDelay(3));
         }
-        if (AttendeeBehaviour.numOfAttendeesAlive < initialAttendees)
+        if (!isSceneLoading && AttendeeBehaviour.numOfAttendeesAlive < initialAttendees)
         {
-            SceneManager.LoadSceneAsync(4);
+            StartCoroutine(LoadSceneAfterDelay(4));
         }
+    }
+    IEnumerator LoadSceneAfterDelay(int sceneIndex)
+    {
+        isSceneLoading = true;
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadSceneAsync(sceneIndex);
     }
     
 }
