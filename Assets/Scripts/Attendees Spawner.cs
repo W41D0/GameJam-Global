@@ -14,6 +14,7 @@ public class AttendeesSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameManager.SyncDifficulty(ref numOfAssasins, ref numOfAttendees);
         paper = GameObject.Find("Paper");
         ChooseOutfit.usedOutfitHashes.Clear();
         AttendeeBehaviour.numOfAssasinsAlive = numOfAssasins;

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 848361958559256124}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,8 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd03a8b8aefe544caec3be542dd70eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttendeesSpawner
-  attendee: {fileID: 0}
-  numOfAttendees: 5
+  attendee: {fileID: 4126662219425488895, guid: 1d1d3dcd569af244c88f72784f1faea6, type: 3}
+  numOfAttendees: 10
   numOfAssasins: 2
   pos1: {fileID: 3940638201603657111}
   pos2: {fileID: 1305892359789528783}
@@ -107,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 4978268093842955069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.29, y: 4.15, z: 0}
+  m_LocalPosition: {x: -5.76, y: 4.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
