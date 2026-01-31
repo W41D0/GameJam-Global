@@ -21,6 +21,8 @@ public class AttendeeBehaviour : MonoBehaviour
     GameObject spawner;
     Transform pos1;
     Transform pos2;
+    GameObject head;
+    ParticleSystem bloodParticles;
 
     GameObject perimeter;
     Rigidbody2D attendee;
@@ -32,6 +34,8 @@ public class AttendeeBehaviour : MonoBehaviour
 
     void Awake()
     {
+        head = gameObject.transform.Find("Outfit/Head").gameObject;
+        bloodParticles = head.GetComponent<ParticleSystem>();
         defaultLayer = gameObject.layer;
         ignoreLayer = LayerMask.NameToLayer("Ignore Raycast");
         attendee = GetComponent<Rigidbody2D>();
@@ -82,7 +86,7 @@ public class AttendeeBehaviour : MonoBehaviour
     {
         if(isAlive)
         {
-            Debug.Log("Im a " + isAssasin + " assasin");
+            bloodParticles.Play();
             isAlive = false;
             attendee.linearVelocity = Vector2.zero;
             GetComponentInChildren<PhysicsBobber2D>().TriggerDeath();

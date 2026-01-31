@@ -61,5 +61,8 @@ TagManager:
   - name: CheckBoard
     uniqueID: 3661429491
     locked: 0
+  - name: Blood
+    uniqueID: 2620122211
+    locked: 0
   m_RenderingLayers:
   - Default
