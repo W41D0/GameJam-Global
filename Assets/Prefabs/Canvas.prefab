@@ -761,12 +761,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AssasinAtributesChecklist
   maskSprites:
-  - {fileID: -2515223741257278335, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
-  - {fileID: -1621331511213568904, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
-  - {fileID: -1576905741432974279, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
-  - {fileID: 1041530616712097079, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
-  - {fileID: -3058205264586532635, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
-  - {fileID: 5473558219997534313, guid: 19e5f847b6d6da04fb5659c4db5e9b29, type: 3}
+  - {fileID: 3335894523649437487, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
+  - {fileID: 7193058230158321431, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
+  - {fileID: -7985097443665035734, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
+  - {fileID: -265168190392570328, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
+  - {fileID: -7255374483064340926, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
+  - {fileID: -488464143834796339, guid: d2bbf7f8d0aeb3f4186744ce0aadc409, type: 3}
   bodyTypeList:
   - {fileID: -3126933480502317572, guid: 6aaed20f2f3058d458bdb42b264d527a, type: 3}
   - {fileID: -9107684662965093031, guid: 6aaed20f2f3058d458bdb42b264d527a, type: 3}
@@ -793,10 +793,10 @@ MonoBehaviour:
   - {fileID: 4366684086613286107, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
   - {fileID: 6286683622799710322, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
   maleHairStyles:
-  - {fileID: 4123362174586507617, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: -3040286798778904671, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: -3339888944659301926, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: 1488659391076032953, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  - {fileID: 9042079437479353776, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
+  - {fileID: -115288615446566239, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
+  - {fileID: -6914103119493876570, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
   femaleClothesList:
   - {fileID: 7566583126990785104, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
   - {fileID: -6630935928423092300, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
@@ -805,11 +805,10 @@ MonoBehaviour:
   - {fileID: 8110221161724722410, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
   - {fileID: -637323445732092492, guid: 01bc0c8c8432246488e9101d51abb151, type: 3}
   femaleHairStyles:
-  - {fileID: -2403615023284425778, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: 5551457060107602389, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: 1589037545076745396, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: -7122719001589257417, guid: 62791b56e07073549abe377b74d5e870, type: 3}
-  - {fileID: 2363488807801806293, guid: 62791b56e07073549abe377b74d5e870, type: 3}
+  - {fileID: -5045535011223827050, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
+  - {fileID: -115288615446566239, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
+  - {fileID: -6218579890368111124, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
+  - {fileID: -3465951917655514925, guid: 027b81d5d7d0b90449f7e2cb5a13f340, type: 3}
 --- !u!1 &4182909877771039026
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,14 +867,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
