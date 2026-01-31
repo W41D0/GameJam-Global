@@ -117,16 +117,19 @@ public class GameManager : MonoBehaviour
 
     void HandleLoss()
     {
-        FreezeAndRevealAgents(); // <--- ADD THIS
+        // 1. Kill the Music (This stops the sound)
+        if (BackgroundMusic.instance != null)
+        {
+            Destroy(BackgroundMusic.instance.gameObject);
+        }
 
-        // Reset Enemy Count
+        // 2. Your existing logic...
+        FreezeAndRevealAgents();
         currentAssassins = defaultAssassinsMemory;
         currentAttendees = defaultAttendeesMemory;
-
-        // Reset Time
         levelTimeLimit = defaultTime;
 
-        Debug.Log("Lost! Resetting all stats to default.");
+        Debug.Log("Lost! Music stopped and stats reset.");
     }
 
     IEnumerator LoadSceneAfterDelay(int sceneIndex)
