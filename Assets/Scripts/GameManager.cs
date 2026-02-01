@@ -1,16 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using TMPro; // REQUIRED for the Text
+using TMPro;
+using System.IO; // REQUIRED for the Text
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager gameManager;
     public static bool isGameOver = false;
     [Header("Sound Effects")]
     public AudioSource sfxSource;   
     public AudioClip loseClip;      
     public AudioClip winClip;       
 
+    public int currentHighScore;
     public static int score = 0; 
     public TextMeshProUGUI scoreText; 
 
@@ -54,6 +57,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        if (gameManager == null)
+        {
+            gameManager = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         if (levelTimeLimit == -1f) levelTimeLimit = defaultTime;
@@ -105,7 +119,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   void HandleWin()
+    void HandleWin()
     {
         isGameOver = true;
         FreezeAndRevealAgents();
@@ -185,5 +199,27 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SaveHighScore(int score)
+    {
+        string path = "highscore.txt";
+
+        File.WriteAllText(path, score.ToString());
+    }
+
+    public int LoadHighScore()
+    {
+        string path = "highscore.txt";
+        if (File.Exists(path))
+        {
+            string content = File.ReadAllText(path);
+            if (int.TryParse(content, out int result))
+            {
+                return result;
+            }
+        }
+        return 0;
+        
     }
 }
